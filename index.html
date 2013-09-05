@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>jsTalkCisco</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>m
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+				</section>
+
+				<section>
+					<img src="imgs/badtime.png"/>
+				</section>
+
+				<section>
+					<p>"Everyone should be upset with JavaScript"</p>
+					<p class="fragment"><small>--Eirik <a href="http://github.com/clux">http://github.com/clux</a></small></p>
+				</section>
+
+				<section>
+					<h1>JS</h1>
+					<p class="fragment">DOM + AJAX APIs</p>
+					<p class="fragment">Canvas, WebGL, Websockets, Webworkers, Web components</p>
+					<p class="fragment">NodeJS</p>
+					<p class="fragment">CoffeeScript, TypeScript, ASM.js</p>
+					<p class="fragment">Core language -></p>
+				</section>
+
+				<section>
+					<h1>Core language</h1>
+					<p>operators, syntax, keywords, inheritance</p>
+					<p>timers</p>
+					<p>scope and closures</p>
+					<p>original 8 built in types</p>
+				</section>
+
+				<section>
+					<h1>Prototypes</h1>
+					<pre><code data-trim contenteditable>
+function User(name) {
+  this.name = name;
+}
+User.locate = function (name) { .. };
+User.prototype.greet = function () { return 'hi: ' + this.name; }
+
+
+var me = new User('Eirik');
+
+
+
+
+
+
+
+
+
+// where does properties on `me` live?
+// NB: me.property === me['property']
+
+
+// me.qwfp
+// User.prototype.qwfp
+// Object.prototype.qwfp
+// -> undefined
+					</code></pre>
+				</section>
+
+				<section>
+					<h1>Object</h1>
+					<p>{key: value, ...}</p>
+					<br>
+					<div class="fragment">
+						<p>.keys</p>
+						<p>.create</p>
+						<p>.freeze</p>
+						<p>.isFrozen</p>
+						<p>.seal</p>
+						<p>::toString</p>
+						<p>::valueOf</p>
+					</div>
+				</section>
+
+				<section>
+					IMAGE JAVASCRIPT
+				</section>
+
+				<section>
+					<h2>Array</h2>
+					<p>[a, b, c]</p>
+					<br>
+					<div class="fragment">
+						<p>::toString</p>
+						<p>::join</p>
+						<p>::concat</p>
+						<p>::sort</p>
+						<p>::reverse ::slice</p>
+						<p>::forEach ::map ::filter ::reduce</p>
+						<p>::indexOf ::lastIndexOf</p>
+						<p>::pop ::push ::shift ::unshift</p>
+						<p>::every ::some</p>
+					</div>
+				</section>
+
+				<section>
+					<h2>String</h2>
+					<p>"ab©"</p>
+					<br>
+					<div>
+						<p>::toString</p>
+						<p>::slice</p>
+						<p>::indexOf</p>
+						<p>::replace</p>
+						<p>::match</p>
+						<p>::toUpperCase</p>
+						<p>::toLowerCase</p>
+						<p>::trim</p>
+					</div>
+				</section>
+
+				<section>
+					<h2>Date</h2>
+					<p>new Date()</p>
+					<br>
+					<div>
+						<p>.now</p>
+						<p>.parse</p>
+						<p>::valueOf</p>
+						<p>::toJSON</p>
+						<p>::otherHelpfulMethods</p>
+					</div>
+				</section>
+
+				<section>
+					<h2>Boolean</h2>
+					<p>true,false</p>
+					<br>
+					<div>
+						<p>::toString</p>
+						<p>::valueOf</p>
+					</div>
+				</section>
+
+				<section>
+					<h2>Number</h2>
+					<p>123</p>
+					<br>
+					<div>
+						<p>::toString</p>
+						<p>.isFinite</p>
+						<p>.isNaN</p>
+					</div>
+				</section>
+
+				<section>
+					<img src="imgs/nanfry.png"/>
+				</section>
+
+				<section>
+					<h2>RegExp</h2>
+					<p>/^match[u|i]$/</p>
+					<br>
+					<div>
+						<p>::toString</p>
+						<p>::test<p>
+					</div>
+				</section>
+
+				<section>
+					<img src="imgs/consistency.png"/>
+				</section>
+
+				<section>
+					<h2>Function</h2>
+					<p>function (args) { body; }</p>
+					<br>
+					<div>
+						<p>::toString</p>
+						<p>::call<p>
+						<p>::apply<p>
+						<p>::bind<p>
+					</div>
+				</section>
+
+				<section>
+					<h1>Call/Apply/Bind</h1>
+					<pre><code data-trim contenteditable>
+var fn = function () { code(); }
+// all equivalent
+fn(arg1, arg2, arg3);
+fn.call(this, arg1, arg2, arg3);
+fn.apply(this, [arg1, arg2, arg3]);
+fn.bind(this, arg1, arg2, arg3)();
+fn.bind(this, arg1, arg2)(arg3);
+fn.bind(this, arg1)(arg2, arg3);
+fn.bind(this)(arg1, arg2, arg3);
+					</code></pre>
+				</section>
+
+				<section>
+					<h1>this</h1>
+					<pre><code data-trim contenteditable>
+function User(name) {
+	this.name = name;
+}
+
+User.prototype.context = function () {
+	return this;
+};
+var ea = new User('eirik');
+ea.context(); // { name: 'eirik' }
+this; // global object
+
+User.prototype.context = function () {
+	return (function () {
+		return this;
+	})();
+};
+ea.context(); // global object
+
+
+
+
+User.prototype.context = function () {
+	return (function () {
+		return this;
+	}).call(this);
+};
+ea.context(); // { name: 'eirik' }
+
+
+
+User.prototype.context = function () {
+	var that = this;
+	return (function () {
+	  return that;
+	})();
+};
+					</code></pre>
+				</section>
+
+
+				<section>
+					<style>
+						.poem {
+							white-space: pre;
+							text-align: left;
+						}
+					</style>
+					<h2>poe.js</h2>
+					<div class="poem">Once upon a midnight dreary, while I struggled with jQuery,
+Sighing softly, weak and weary, troubled by my daunting chore,
+While I grappled with weak mapping, suddenly a function wrapping
+formed a closure, gently trapping objects that had gone before.
+
+Ah, distinctly I remember, it was while debugging Ember,
+As each separate dying member left its host for ever more.
+Eagerly I wished the morrow–vainly I had sought to borrow
+(From my bookmarked trail of sorrow), APIs from Underscore.
+
+There I sat engaged in guessing the meaning of each cursed expression,
+Endless callbacks in procession; nameless functions, nothing more,
+This and more I sat divining, strength and spirit fast declining,
+Disclose the value we’re assigning! Tell me - tell me, I implore!
+</div>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: 'night',
+				transition: 'zoom',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
