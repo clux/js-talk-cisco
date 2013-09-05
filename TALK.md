@@ -206,9 +206,9 @@ so as ridiculous as this is, it is at least consistent
 ### RegExp
 Regular expressions are actually very good in JS and every RegEx instance has a `test` method that takes a string.
 
-This is somewhat confusing because expression `match` and `replace` methods exist on `String.prototype` instead of this, and you can never really remember which one need which ones are where.
+This is somewhat confusing because expression `match` and `replace` methods exist on `String.prototype` instead of this, and you can never really remember which ones are where.
 
-But hey, if I wanted to talk about consistency **SLIDE** right.
+But hey, if I wanted to talk about consistency **SLIDE**. True story.
 
 ### Function
 Since JS is actually half based on Scheme, a functional language that is a dialect of Lisp, theres' a lot of magic in the Function type.
