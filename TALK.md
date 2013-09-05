@@ -62,7 +62,7 @@ Like in Python, almost everything in JS is an Object. And they will all have the
 ## As a Dictionary
 Even though it is the base Object for all inheritance, it's also the actual type used as a python-esque dictionary. It has keys you can retrieve in an array, and it has some nice freezing and sealing encapuslation methods, none of which I will go into.
 
-Most of you know how to code and anything that I list on here that you want to use, just search "MDN fnName" for mozilla developer network's updated wiki pages and you'll get all the info you'll need. If you search for documentation without MDN in your search you'll likely get W3schools resources that have been both outdated and just plain wrong for years.
+Most of you know how to code so anything you want to use here, just search "MDN fnName" for mozilla developer network's crowdsourced wiki pages and you'll get all the info you'll need. If you search for documentation without MDN in your search you'll likely get W3schools resources that have been both outdated and just plain wrong for years.
 **MEME SLIDE shortly**
 
 *Backtracking* Object being at the bottom of the inheritance chain, it has two basic methods which allows everything to be converted either into a number or a string if needed.
@@ -83,10 +83,10 @@ JSON.stringify(o) // therefore for dictionaries and stuff that goes on the wire,
 o + '' // works for everything with this named method
 
 o. TAB // these methods all exist by default
-// If you want a completely blank object, you **literally**, and, stay with me here, you have to **inherit from NULL**..
-var onull = Object.create(null); // Object.create is the new way of doing inheritance, and you don't need it, except when inheriting from null..
-onull. TAB
-onull + ''; // primitive value does not have this method
+// If you want a completely blank object, you **literally**, and, stay with me here, to get nothing, you have to **inherit from NULL**..
+var blank = Object.create(null); // Object.create is the new way of doing inheritance, and you don't need it, except when inheriting from null..
+blank. TAB
+blank + ''; // primitive value does not have this method
 null + '' // which also makes no fucking sense because null has this method!?
 
 // implicit string conversion: reason for this craziness
@@ -104,9 +104,9 @@ a + '' // Array has overridden ::toString
 [1, 2] + [3, 4] == "1,23,4"
 // oh and just to show you that this is actually overriding Object::toString
 delete Array.prototype.toString
-a + ''
+a + '' // live action inheritance..
 {} + []
-[] + {}
+[] + []
 // not any more sensible, but hey
 ```
 
@@ -119,7 +119,7 @@ Just... don't.
 The only stuff you need for these are these are the instance methods.
 
 Concat obviously because the plus operator does something completely different as we saw.
-But you can at least I sort arrays in a sensible manner, you say
+But at least I can sort arrays in a sensible manner, you say
 
 ```
 // Well prepare to be surprised
@@ -132,7 +132,7 @@ b.sort() // someone tell me the default sorted order of this
 // spec is pretty clear on this, everything passed into sort, by default, gets converted to a string
 // and sorted lexicographically.
 b.sort(function (x, y) { return x - y }) // so always use a sorting function, no shortcuts.
-// this way you can sort on properties as well if x are complicated objects - pretty much qsort except for the whole void pointer detour
+// this way you can sort on properties as well if you have complicated objects - pretty much like qsort except for the whole void pointer detour
 ```
 
 `slice` is basically python's slice operator without stride, and also exists on string, so you don't deal with the two different substring methods.
@@ -147,7 +147,7 @@ The last ones are helpers for:
 And they actually do what you expect. Arrays are a joy to work with in JS.
 
 These two, are the two main types, and are often confusingly, used as one.
-Because Arrays inherit from Object you can still put string keys on them and use them as in PHP as a catch all associative array type thing with occasional integer keys, but what you'll get is just a slow Object.
+Because Arrays inherit from Object you can still put string keys on them and use them as in PHP as a catch all associative array type monstrosity with occasional integer keys, but what you'll get is just a slow Object.
 
 ### Rest Types
 Then there are a bunch of other types that are cleary useful, but are fairly self-explanatory:
@@ -157,7 +157,7 @@ Which you create with a literal. You can just put unicode characters inside this
 It has nice regex match/replace methods.
 
 ### Date
-Date, which you can parse sensibly if you serialize it via toJSON || valueOf
+Date, which you can parse sensibly if you serialize it via toJSON || valueOf.
 And it actually has a bunch of helpful methods as well if you need to wrestle with timezones.
 
 ### Boolean
@@ -165,8 +165,8 @@ Winner of skinniest subclass award.
 
 ### Number
 has the standard literal interpretation, and there exists some checks for whether something is a sensible number or not.
-Number also has helper functions/constants attached to a global `Math` variable.
-Number is 64 bit double underneath.
+Number is 64 bit double underneath, common sense applies.
+There are also helper functions/constants attached to a global `Math` variable.
 
 ```
 // couple of funny things about number
@@ -182,9 +182,9 @@ Number(" ")
 // this leaks off into the old isNaN test
 isNaN("a")
 isNaN(" ")
-// therefore, if extend filter
+// therefore, let's do something fun, if we extend filter
 String.prototype.filter = function (fn) { return Array.prototype.filter.call(this, fn).join(''); }
-"  !whitespace!  ".filter(isNaN) // what are we doing? correct, we are trimming whitespace..
+"  !hello!  ".filter(isNaN) // what are we doing? correct, we are trimming whitespace..
 // by filtering by isNaN...
 
 // this is why you only use the one I told you of
@@ -194,9 +194,9 @@ sameStr.filter(Number.isNaN)
 // why would you need a function that tests simply if something is NaN
 // well prepare to be amazed
 NaN === NaN
-// JavaScript \o/ (SLIDE)
+// JavaScript \o/
 // NaN is the only type that is not equivalent to itself (triple equals) so not reflexive wrt ===
-NaN !== NaN
+NaN !== NaN // SLIDE
 // (expanded) NaN is not NaN, and this logic is amusingly confirmed by the type system
 typeof NaN // NaN inherits from Number
 ```
@@ -208,7 +208,7 @@ Regular expressions are actually very good in JS and every RegEx instance has a 
 
 This is somewhat confusing because expression `match` and `replace` methods exist on `String.prototype` instead of this, and you can never really remember which ones are where.
 
-But hey, if I wanted to talk about consistency **SLIDE**. True story.
+But hey **SLIDE**. True story.
 
 ### Function
 Since JS is actually half based on Scheme, a functional language that is a dialect of Lisp, theres' a lot of magic in the Function type.
@@ -248,7 +248,7 @@ This leads me to:
 #### Call/Apply/Bind
 4: call and apply, one of which I just used confusingly. These are Function functions, that is functions on Function.prototype: so methods that exist on an instance of a Function. With me/Yeah? Functions are first class objects.
 
-When I create a function and bind it to a variable, I can call it in 3 ways. And I can curry it in many more. All these are equivalent. Call takes arguments in order, Apply takes an array of arguments, and bind takes as many as you give it, and gives you a function back expecting you to fill in the rest. So bind is the only one here that doesn't directly call the function, thus the extra set of calling parentheses.
+When you create a function and bind it to a variable, you can call it in 3 ways, and curry it in many more. All these are equivalent. Call takes arguments in order, Apply takes an array of arguments, and bind takes as many as you give it, and gives you a function back expecting you to fill in the rest. So bind is the only one here that doesn't directly call the function, thus the extra set of calling parentheses.
 
 I ligned these up these parentheses here in honour of Lisp. Which you're allowed to applaud. (No?/Hahah.)
 
@@ -256,11 +256,11 @@ I ligned these up these parentheses here in honour of Lisp. Which you're allowed
 5: this. What is this?
 **this** is a variable injected into the current function scope.
 
-Yes, function scope, because JS doesn't have block scope. Every variable declared inside a for loop is visible outside it, in fact, every variable declared inside a foor loop is visible even before the for loop because variable declaration gets hoisted to the top of the function. They will be uninitialized until the for loop starts though.
+Yes, function scope, because JS doesn't have block scope. Every variable declared inside a for loop is visible outside it, in fact, every variable declared inside a for loop is visible even before the for loop because variable declaration gets hoisted to the top of the function. They will be uninitialized until the for loop starts though.
 
-But it is typically a source of confusion. So until the next version of JS arrives with block scope, people sometimes just make extra functions to get scopes to work sensibly. This may  be a problem...
+But it is typically a source of confusion. So until the next version of JS arrives with block scope, people sometimes just make extra functions to get scopes to work sensibly...AANNDD this may cause another problem...
 
-**SLIDE**
+**SCROLL AND REMOVE FOR**
 
 ..because every time you enter a new function, `this` gets shadowed with a different (sometimes sensible) context.
 If you're inside a class method, the context guess is ususally good, but otherwise it's often terrible.
@@ -281,7 +281,7 @@ Which is actually what most people do... Closures makes sense, contexts are stil
 K. So I don't actually have anything else to say here.
 Hopefully this was vaguely interesting/enjoyable.
 
-I was almost exclusively going through the weird things in the language, but I honestly believe if you are just on some level aware of all the crazy things, and just use the other things I mentioned that defines this subset of JS; you can actually come to really like this quirky language. I find it better in almost every way than python, but I can't make a good argument for it now.. after having presented this.
+I was almost exclusively going through the weird things in the language, but honestly, if you are just on some level aware of all the crazy stuff, and otherwise use the stuff I mentioned, that defines this subset of JS; you can actually really like this fucked up language. I find it better in almost every way than python, but I can't make a good argument for it now.. after having presented this.
 
 There's a lot of cool stuff I could have talked about:
 
