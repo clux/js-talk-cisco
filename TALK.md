@@ -11,15 +11,14 @@ Thanks to Charles for his clear oppinion on this topic.
 Unfortunately, because this talk is going to venture somewhat into the 'here be dragons' part of the language, I may not be able to dissuade you of this..
 
 Though I will informally try to define what this this supposedly good subset of javascript is, so while you'd think I don't have to talk about dragons, there be dragons everywhere. I'm just trying to introduce you to the ones you have to deal with, and then gloss over the rest because contrary to the impression you'll get from this talk, most stuff work fantastically.
-Learn by mistakes, and here are the common ones basically..
 
 Oh, yeah, and if you don't know I'm Eirik. I open source web stuff and node modules on github if you're into that kind of thing. These slides will be up there later.
 
 ## Language
 When people talk about JS they often talk about a bunch of different things.
 
-- The DOM and AJAX API that no-one likes to talk about; the reason that literally half web load the 10,000 lines that is jQuery to do what the browser was meant to do in the first place
-- all the shiny new browser APIs - admittedly much better
+- The DOM and AJAX API that no-one likes to hear about; the reason that literally half web load the 10,000 lines that is jQuery to do what the browser was meant to do in the first place
+- all the stuff you can now do with JS - shiny new APIs
 - APIs from node - these are very nice
 - Languages that compile to, or are derived from JS (because who knew, people aren't satisfied with JS)
 - and the core language (by which I mean: ->)
@@ -44,7 +43,7 @@ var fail = User('Eirik')
 window.name === 'Eirik'
 ```
 
-Sometimes this is hard to find, so use a static analyser; I recommend JSHint.
+Sometimes this is hard to find, and this is just one of many things to watch out for, so use a static analyser; I recommend JSHint.
 
 Property lookups, if you look for `qwfp` on `me` now, it will actually look through the object itself and its ancestors' prototypes:
 
@@ -56,7 +55,7 @@ Property lookups, if you look for `qwfp` on `me` now, it will actually look thro
 "Core" JS contains 8 builtin types that all have a bunch of functions on their **prototype**. First:
 
 ## Object
-Like in Python, almost everything in JS is an Object. And they will all have these methods:
+Like in Python, almost everything in JS is an Object. So all things have these methods:
 **convention** Dot means static method,  :: instance methods (i.e. on the prototype)
 
 ## As a Dictionary
@@ -83,7 +82,7 @@ JSON.stringify(o) // therefore for dictionaries and stuff that goes on the wire,
 o + '' // works for everything with this named method
 
 o. TAB // these methods all exist by default
-// If you want a completely blank object, you **literally**, and, stay with me here, to get nothing, you have to **inherit from NULL**..
+// If you want a completely blank object, you have to.. this sounds terrible.. to get a single primitive value, you have to **inherit from NULL**..
 var blank = Object.create(null); // Object.create is the new way of doing inheritance, and you don't need it, except when inheriting from null..
 blank. TAB
 blank + ''; // primitive value does not have this method
@@ -137,16 +136,21 @@ b.sort(function (x, y) { return x - y }) // so always use a sorting function, no
 
 `slice` is basically python's slice operator without stride, and also exists on string, so you don't deal with the two different substring methods.
 
-`map`, `forEach`, `reduce` and `filter` is your functional bread and butter (reduce is the haskell equivalent of a fold)
+`map`, `forEach`, `reduce` and `filter` is your functional bread and butter (reduce is the haskell equivalent of a fold) - unless you are writing high performance code you should favour these almost everywhere to native loops.
+
 The last ones are helpers for:
 
 - finding elements
 - adding or removing elements from the front or the back of an array
 - checking if every/some element in an array satisfy some boolean function
 
+```
+b.every(Number.isFinite);
+```
+
 And they actually do what you expect. Arrays are a joy to work with in JS.
 
-These two, are the two main types, and are often confusingly, used as one.
+Array and Object, are the two main types, and are often confusingly, used as one.
 Because Arrays inherit from Object you can still put string keys on them and use them as in PHP as a catch all associative array type monstrosity with occasional integer keys, but what you'll get is just a slow Object.
 
 ### Rest Types
@@ -167,6 +171,7 @@ Winner of skinniest subclass award.
 has the standard literal interpretation, and there exists some checks for whether something is a sensible number or not.
 Number is 64 bit double underneath, common sense applies.
 There are also helper functions/constants attached to a global `Math` variable.
+Two special types `NaN` and `+-Infinity` exists as well.
 
 ```
 // couple of funny things about number
@@ -201,7 +206,7 @@ NaN !== NaN // SLIDE
 typeof NaN // NaN inherits from Number
 ```
 
-so as ridiculous as this is, it is at least consistent
+so as ridiculous as this is, it is at least consistent.
 
 ### RegExp
 Regular expressions are actually very good in JS and every RegEx instance has a `test` method that takes a string.

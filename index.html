@@ -74,7 +74,7 @@ User.prototype.greet = function () { return 'hi: ' + this.name; }
 
 
 var me = new User('Eirik');
-
+me instanceof User; // true
 
 
 
@@ -106,6 +106,7 @@ var me = new User('Eirik');
 						<p>.seal</p>
 						<p>::toString</p>
 						<p>::valueOf</p>
+						<p>JSON global</p>
 					</div>
 				</section>
 
@@ -177,8 +178,9 @@ var me = new User('Eirik');
 						<p>::toString</p>
 						<p>.isFinite</p>
 						<p>.isNaN</p>
+						<p>Math global</p>
 					</div>
-					<p><b>Math</b></p>
+					
 				</section>
 
 				<section>
