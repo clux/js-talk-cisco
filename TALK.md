@@ -3,7 +3,7 @@ Hi. So, I'm basically here because none of you guys have had anything to say for
 
 I will be talking briefly, in educational rant form, about the tiny and wonderful language that most people hate.
 Ultimately, the there's a lot of crap in the language, but if you subset yourself to the bit that's more or less agreed upon in open source communities, you're going to have a good time.
-###pizza-slide fade-in
+### pizza-slide fade-in
 That said, even if you subset the language heavily, you're still more likely to raise your eyebrows in disbelief far higher than with any other language.
 
 # "Everyone Should be Upset With JavaScript"
@@ -12,7 +12,7 @@ Unfortunately, because this talk is going to venture somewhat into the 'here be 
 
 Though I will informally try to define what this this supposedly good subset of javascript is, so while you'd think I don't have to talk about dragons, there be dragons everywhere. I'm just trying to introduce you to the ones you have to deal with, and then gloss over the rest because contrary to the impression you'll get from this talk, most stuff work fantastically.
 
-Oh, yeah, and if you don't know I'm Eirik. I open source web stuff and node modules on github if you're into that kind of thing. These slides will be up there later.
+Oh, yeah, and if you don't know I'm Eirik. I work in the protocols team, and I open source web stuff and node modules on github if you're into that kind of thing. These slides will be up there.
 
 ## Language
 When people talk about JS they often talk about a bunch of different things.
@@ -20,7 +20,7 @@ When people talk about JS they often talk about a bunch of different things.
 - The DOM and AJAX API that no-one likes to hear about; the reason that literally half web load the 10,000 lines that is jQuery to do what the browser was meant to do in the first place
 - all the stuff you can now do with JS - shiny new APIs
 - APIs from node - these are very nice
-- Languages that compile to, or are derived from JS (because who knew, people aren't satisfied with JS)
+- Languages that compile to, or are derived from JS (because who knew, people aren't satisfied with JS wrt either: style, type safety, or performance)
 - and the core language (by which I mean: ->)
 
 ## Core Language
@@ -78,7 +78,7 @@ o.toString() // via built in method
 JSON.stringify(o) // therefore for dictionaries and stuff that goes on the wire, this is used
 
 // above method, however, is magic
-// anything in js can be implicitly converted to a string if you are not careful
+// you can implicitly convert anything to a string if you are not careful
 o + '' // works for everything with this named method
 
 o. TAB // these methods all exist by default
@@ -118,7 +118,7 @@ Just... don't.
 The only stuff you need for these are these are the instance methods.
 
 Concat obviously because the plus operator does something completely different as we saw.
-But at least I can sort arrays in a sensible manner, you say
+But at least I can sort arrays in a sensible manner!?
 
 ```
 // Well prepare to be surprised
@@ -126,17 +126,17 @@ var a = [5,6,3,1]
 // so sort typically takes a sorting function if you don't want the default order
 // which i will now show you
 a.sort() // sensible, right?
-var b = [6, 10, 8, 2] // how about this?
-b.sort() // someone tell me the default sorted order of this
+var b = [6, 20, 8, 2] // how about this?
+b.sort() // someone yell out what they expect this to return (2, 20, 6, 8)
 // spec is pretty clear on this, everything passed into sort, by default, gets converted to a string
 // and sorted lexicographically.
 b.sort(function (x, y) { return x - y }) // so always use a sorting function, no shortcuts.
 // this way you can sort on properties as well if you have complicated objects - pretty much like qsort except for the whole void pointer detour
 ```
 
-`slice` is basically python's slice operator without stride, and also exists on string, so you don't deal with the two different substring methods.
+`slice` is basically python's slice operator without stride, and also exists on string, so you don't have to deal with the two different substring methods that people somehow still use..
 
-`map`, `forEach`, `reduce` and `filter` is your functional bread and butter (reduce is the haskell equivalent of a fold) - unless you are writing high performance code you should favour these almost everywhere to native loops.
+`map`, `forEach`, `reduce` and `filter` is your functional bread and butter (reduce is the haskell equivalent of a fold) - unless you are writing high performance code you should favour these almost everywhere to native loops. It makes your code that much more readible, especially when you figure out the point-free-style tricks.
 
 The last ones are helpers for:
 
@@ -209,9 +209,9 @@ typeof NaN // NaN inherits from Number
 so as ridiculous as this is, it is at least consistent.
 
 ### RegExp
-Regular expressions are actually very good in JS and every RegEx instance has a `test` method that takes a string.
+Regular expressions are actually very good in JS, you create them simply delimeted by slashes or with `new RegEx` if you need a variable one. Every RegEx instance has a `test` method that takes a string.
 
-This is somewhat confusing because expression `match` and `replace` methods exist on `String.prototype` instead of this, and you can never really remember which ones are where.
+This is somewhat confusing because the related `match` and `replace` methods exist on `String.prototype` instead of this, and you can never really remember which ones are where.
 
 But hey **SLIDE**. True story.
 
@@ -227,7 +227,7 @@ var foo = function bar(){}
 bar // name redundant here
 foo
 foo.name // but it is there if you want this inner name
-// if you didn't assign the function to a variable, then you must give it an inner name
+// if you didn't assign the function to a variable (and it's not used in an expression), then you must give it an inner name
 // so that JS can assign it to a variable with the same name as the function name, without you knowing
 function (a) { return a; } // wont allow this
 function qwfp(a) { return a; } // this is kosher
@@ -251,14 +251,14 @@ var restArgs = function (a) { return Array.prototype.slice.call(arguments, 1); }
 
 This leads me to:
 #### Call/Apply/Bind
-4: call and apply, one of which I just used confusingly. These are Function functions, that is functions on Function.prototype: so methods that exist on an instance of a Function. With me/Yeah? Functions are first class objects.
+4: call and apply, one of which I just used confusingly. These are Function functions, that is functions on Function.prototype: so methods that exist on an instance of a Function. With me? Functions are first class objects, so they have methods.
 
 When you create a function and bind it to a variable, you can call it in 3 ways, and curry it in many more. All these are equivalent. Call takes arguments in order, Apply takes an array of arguments, and bind takes as many as you give it, and gives you a function back expecting you to fill in the rest. So bind is the only one here that doesn't directly call the function, thus the extra set of calling parentheses.
 
 I ligned these up these parentheses here in honour of Lisp. Which you're allowed to applaud. (No?/Hahah.)
 
 #### This
-5: this. What is this?
+Finally: **this**. What is this?
 **this** is a variable injected into the current function scope.
 
 Yes, function scope, because JS doesn't have block scope. Every variable declared inside a for loop is visible outside it, in fact, every variable declared inside a for loop is visible even before the for loop because variable declaration gets hoisted to the top of the function. They will be uninitialized until the for loop starts though.
@@ -286,7 +286,7 @@ Which is actually what most people do... Closures makes sense, contexts are stil
 K. So I don't actually have anything else to say here.
 Hopefully this was vaguely interesting/enjoyable.
 
-I was almost exclusively going through the weird things in the language, but honestly, if you are just on some level aware of all the crazy stuff, and otherwise use the stuff I mentioned, that defines this subset of JS; you can actually really like this fucked up language. I find it better in almost every way than python, but I can't make a good argument for it now.. after having presented this.
+I was almost exclusively going through weird things in the language, but honestly, if you are just on some level aware of all the crazy stuff, and otherwise use the stuff I mentioned that defines this subset of JS; you can actually really like this fucked up language. I find it better in almost every way than python, but I don't want to make a good argument for that now.. after having presented this.
 
 There's a lot of cool stuff I could have talked about:
 
@@ -294,9 +294,9 @@ There's a lot of cool stuff I could have talked about:
 - how to share npm modules to make them work on the client as well as the server
 - web components and new browser APIs
 
-But figured this was a good start point.
-If you guys run out of topics again, I could possibly talk about that. Or I could ridicule the language some more. There are plenty of quirky things deeper down in the language as well; there's dragons all the way down.
+But figured this was a good place to start.
+There are plenty of quirky things deeper down in the language as well, if you guys run out of topics again and I want to talk. There's dragons all the way down.
 
 Anyway. I am off, are there any questions/requests before I show a last slide?
 
-k bye. While most people leave, you losers stuck in the middle may enjoy this bastardized poem.
+OK. While most people leave, you losers stuck in the middle may enjoy this bastardized poem.
